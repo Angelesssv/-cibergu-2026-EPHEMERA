@@ -1,0 +1,57 @@
+/* css/components.css - Estilos de Tablas y Componentes de UI */
+
+/* Estructura de Tabla SaaS */
+.data-table-container {
+    background-color: var(--card-bg);
+    border: 1px solid var(--border-primary);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+}
+
+.data-table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+    /* EFECTO: Un fondo sutil más oscuro para la tabla entera */
+    background: rgba(11, 18, 32, 0.5); 
+}
+
+.data-table th {
+    background-color: var(--bg-secondary);
+    color: var(--text-secondary);
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    font-weight: 600;
+    padding: 1rem 1.5rem;
+    border-bottom: 1px solid var(--border-primary);
+    /* EFECTO: Línea vertical sutil entre columnas en el header */
+    border-right: 1px solid rgba(31, 41, 55, 0.3); 
+}
+
+.data-table th:last-child {
+    border-right: none;
+}
+
+.data-table td {
+    padding: 1rem 1.5rem;
+    border-bottom: 1px solid var(--border-primary);
+    color: var(--text-primary);
+    font-size: 0.875rem;
+    vertical-align: middle;
+    /* EFECTO: Línea vertical sutil entre columnas en las filas */
+    border-right: 1px solid rgba(31, 41, 55, 0.1); 
+}
+
+.data-table td:last-child {
+    border-right: none;
+}
+
+/* El hover suave que aplicamos antes se mantiene aquí */
+.data-table tbody tr {
+    transition: background var(--transition-fast);
+}
+
+.data-table tbody tr:hover {
+    background: rgba(59, 130, 246, 0.1);
+}
