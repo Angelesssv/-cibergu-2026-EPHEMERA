@@ -13,42 +13,6 @@
         
         .card-header-flex { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; border-bottom: 1px solid var(--border-primary, rgba(255,255,255,0.05)); padding-bottom: 0.5rem; }
         .card-header-flex h3 { font-size: 1.125rem; font-weight: 500; }
-        
-        /* Tarjeta 1: Estado Principal */
-        .status-hero { background: linear-gradient(180deg, rgba(16, 185, 129, 0.05) 0%, transparent 100%); border: 1px solid rgba(16, 185, 129, 0.2); }
-        .status-hero-content { display: flex; align-items: center; gap: 1rem; margin-bottom: 1.5rem; }
-        .status-icon-large { width: 48px; height: 48px; border-radius: 50%; border: 2px solid #10B981; display: flex; align-items: center; justify-content: center; }
-        .status-icon-large svg { width: 24px; height: 24px; stroke: #10B981; fill: none; stroke-width: 2; }
-        .status-hero-text h4 { font-size: 1.5rem; color: #10B981; margin-bottom: 0.25rem; }
-        .status-hero-text p { color: var(--text-muted, #9CA3AF); font-size: 0.875rem; }
-        .progress-track { width: 100%; height: 8px; background: rgba(255,255,255,0.05); border-radius: 4px; overflow: hidden; }
-        .progress-fill { width: 100%; height: 100%; background: linear-gradient(90deg, #059669 0%, #34D399 100%); box-shadow: 0 0 10px rgba(16, 185, 129, 0.5); }
-
-        /* Tarjeta 2: Estado del Proceso */
-        .process-list { list-style: none; padding: 0; margin: 0; }
-        .process-item { display: flex; justify-content: space-between; align-items: center; padding: 1rem 0; border-bottom: 1px solid rgba(255,255,255,0.03); }
-        .process-item:last-child { border-bottom: none; padding-bottom: 0; }
-        .process-item-left { display: flex; align-items: center; gap: 0.75rem; font-size: 0.95rem; }
-        .process-item-right { font-size: 0.875rem; color: var(--text-muted, #9CA3AF); display: flex; align-items: center; gap: 0.5rem; }
-        .icon-sm { width: 18px; height: 18px; fill: none; stroke-width: 2; }
-        .text-success { color: #10B981; }
-        .text-pending { color: #60A5FA; }
-
-        /* Tarjeta 3: Resumen */
-        .summary-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1.5rem; font-size: 0.875rem; color: var(--text-muted, #9CA3AF); }
-        .summary-actions { display: flex; gap: 1rem; }
-        .summary-actions .btn { flex: 1; font-size: 0.8rem; display: flex; justify-content: center; align-items: center; gap: 0.5rem; }
-
-        /* Tarjeta 4: Actividad */
-        .activity-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem; }
-        .activity-item { display: flex; gap: 1rem; padding-bottom: 1rem; border-bottom: 1px solid rgba(255,255,255,0.03); }
-        .activity-icon { flex-shrink: 0; width: 32px; height: 32px; border-radius: 8px; display: flex; align-items: center; justify-content: center; background: rgba(255,255,255,0.05); }
-        .activity-icon.danger { color: #EF4444; border: 1px solid rgba(239, 68, 68, 0.3); }
-        .activity-icon.warning { color: #F59E0B; border: 1px solid rgba(245, 158, 11, 0.3); }
-        .activity-icon.info { color: #3B82F6; border: 1px solid rgba(59, 130, 246, 0.3); }
-        .activity-details h5 { font-size: 0.9rem; font-weight: 500; margin-bottom: 0.25rem; }
-        .activity-details p { font-size: 0.8rem; color: var(--text-muted, #9CA3AF); line-height: 1.4; margin-bottom: 0.25rem; }
-        .activity-time { font-size: 0.75rem; color: rgba(255,255,255,0.4); }
     </style>
 </head>
 <body class="dark-theme">
@@ -70,136 +34,175 @@
         </aside>
 
         <main class="main-content">
-            <header class="topbar">
-                <h2>Estado del Servicio</h2>
-            </header>
-            
-            <div class="view-container">
-                <div class="status-container">
-                    
-                    <div class="card status-hero">
-                        <div class="card-header-flex">
-                            <h3>Estado del servicio</h3>
-                        </div>
-                        <div class="status-hero-content">
-                            <div class="status-icon-large">
-                                <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg>
-                            </div>
-                            <div class="status-hero-text">
-                                <h4>Activo</h4>
-                                <p>El proceso de protección está activo y en operación.</p>
-                            </div>
-                        </div>
-                        <div class="progress-track">
-                            <div class="progress-fill"></div>
-                        </div>
-                    </div>
+            <div style="max-width: 1000px; margin: 0 auto; padding: 2rem;">
+                <h2 style="margin-bottom: 2rem; font-size: 1.8rem;">Estado del Servicio</h2>
 
-                    <div class="card">
-                        <div class="card-header-flex">
-                            <h3>Estado del proceso</h3>
-                            <svg class="icon-sm" style="stroke: var(--text-muted);" viewBox="0 0 24 24"><path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.92-10.44l5.08 5.08"></path></svg>
-                        </div>
-                        <ul class="process-list">
-                            <li class="process-item">
-                                <div class="process-item-left">
-                                    <svg class="icon-sm text-success" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg>
-                                    Definición de huella
-                                </div>
-                                <div class="process-item-right"><span class="text-success">✓</span> Completado</div>
+                <div id="main-status-card" class="card" style="display: flex; align-items: center; gap: 1.5rem; border-left: 4px solid #10B981; margin-bottom: 2rem; padding: 2rem; background: #111827;">
+                    <div id="status-icon" style="background: rgba(16, 185, 129, 0.1); padding: 1.2rem; border-radius: 50%; color: #10B981; display: flex; align-items: center; justify-content: center;">
+                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+                    </div>
+                    <div>
+                        <h3 id="status-title" style="margin: 0 0 5px 0; color: #10B981; font-size: 1.6rem;">Activo</h3>
+                        <p id="status-desc" style="margin: 0; color: #9CA3AF; font-size: 1rem;">El proceso de protección está activo y en operación.</p>
+                    </div>
+                </div>
+
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin-bottom: 2rem;">
+                    <div class="card" style="padding: 1.5rem; background: #111827;">
+                        <h3 style="margin-top: 0; margin-bottom: 1.5rem; border-bottom: 1px solid rgba(255,255,255,0.05); padding-bottom: 1rem; font-size: 1.1rem;">Ciclo de Ejecución</h3>
+                        <ul style="list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 1.2rem;">
+                            <li style="display: flex; justify-content: space-between; font-size: 0.95rem;">
+                                <span style="color: #9CA3AF;">1. Definición de huella</span> 
+                                <span class="step-status" style="color: #10B981; font-weight: 600;">Completado</span>
                             </li>
-                            <li class="process-item">
-                                <div class="process-item-left">
-                                    <svg class="icon-sm text-pending" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
-                                    Búsqueda y correlación
-                                </div>
-                                <div class="process-item-right"><span class="text-pending">↻</span> En proceso</div>
+                            <li style="display: flex; justify-content: space-between; font-size: 0.95rem;">
+                                <span style="color: #9CA3AF;">2. Búsqueda y correlación</span> 
+                                <span class="step-status" style="color: #3B82F6; font-weight: 600;">En espera</span>
                             </li>
-                            <li class="process-item">
-                                <div class="process-item-left">
-                                    <svg class="icon-sm text-pending" viewBox="0 0 24 24"><path d="M2 12h4l2-9 5 18 2-9h5"></path></svg>
-                                    Acciones ejecutadas
-                                </div>
-                                <div class="process-item-right"><span class="text-pending">↻</span> En proceso</div>
+                            <li style="display: flex; justify-content: space-between; font-size: 0.95rem;">
+                                <span style="color: #9CA3AF;">3. Acciones ejecutadas</span> 
+                                <span class="step-status" style="color: #3B82F6; font-weight: 600;">En espera</span>
                             </li>
-                            <li class="process-item">
-                                <div class="process-item-left">
-                                    <svg class="icon-sm" style="stroke: #9CA3AF;" viewBox="0 0 24 24"><rect x="18" y="3" width="4" height="18"></rect><rect x="10" y="8" width="4" height="13"></rect><rect x="2" y="13" width="4" height="8"></rect></svg>
-                                    Monitorización
-                                </div>
-                                <div class="process-item-right">Activo</div>
+                            <li style="display: flex; justify-content: space-between; font-size: 0.95rem;">
+                                <span style="color: #9CA3AF;">4. Monitorización</span> 
+                                <span class="step-status" style="color: #10B981; font-weight: 600;">Activo</span>
                             </li>
                         </ul>
                     </div>
 
-                    <div class="card">
-                        <div class="card-header-flex">
-                            <h3>Resumen actual</h3>
+                    <div class="card" style="padding: 1.5rem; background: #111827; display: flex; flex-direction: column; justify-content: space-between;">
+                        <div>
+                            <h3 style="margin-top: 0; margin-bottom: 1.5rem; border-bottom: 1px solid rgba(255,255,255,0.05); padding-bottom: 1rem; font-size: 1.1rem;">Resumen de Operación</h3>
+                            <p style="margin: 0 0 12px 0; color: #D1D5DB; font-size: 0.95rem;"><strong>Última actualización:</strong> <br><span id="last-update" style="color: #9CA3AF;"></span></p>
+                            <p style="margin: 0; color: #D1D5DB; font-size: 0.95rem;"><strong>Próximo escaneo:</strong> <br><span id="next-scan" style="color: #9CA3AF;">Automático en 24h</span></p>
                         </div>
-                        <div class="summary-grid">
-                            <div>
-                                <p style="margin-bottom: 0.5rem;">⏱ Proceso activo - 1 de abril, de 2024</p>
-                            </div>
-                            <div style="text-align: right;">
-                                <p style="margin-bottom: 0.5rem;">Proceso activo desde: 21 de abril, 2024 - 04:55 AM</p>
-                                <p>Última actualización: 24 de abril, 2024 - 10:26 AM</p>
-                            </div>
-                        </div>
-                        <div class="summary-actions">
-                            <button class="btn btn-secondary"><svg class="icon-sm" viewBox="0 0 24 24"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg> Activar servicio</button>
-                            <button class="btn btn-secondary"><svg class="icon-sm" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg> Re-ejecutar análisis</button>
-                            <button class="btn btn-secondary"><svg class="icon-sm" viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg> Ver incidencias</button>
+                        <div style="display: flex; gap: 1rem; margin-top: 2rem;">
+                            <button id="btn-toggle-service" style="flex: 1; background: transparent; border: 1px solid #374151; color: white; padding: 0.8rem; border-radius: 6px; cursor: pointer; transition: 0.3s;" onclick="toggleService()">Pausar Servicio</button>
+                            <button id="btn-run-scan" style="flex: 1; background: #2563EB; border: none; color: white; padding: 0.8rem; border-radius: 6px; cursor: pointer; font-weight: 500; transition: 0.3s;" onclick="runManualScan()">Re-ejecutar análisis</button>
                         </div>
                     </div>
-
-                    <div class="card">
-                        <div class="card-header-flex">
-                            <h3>Actividad reciente</h3>
-                            <svg class="icon-sm" style="stroke: var(--text-muted);" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
-                        </div>
-                        <div class="activity-grid">
-                            
-                            <div class="activity-item">
-                                <div class="activity-icon danger"><svg class="icon-sm" viewBox="0 0 24 24"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path><line x1="12" y1="9" x2="12" y2="13"></line><line x1="12" y1="17" x2="12.01" y2="17"></line></svg></div>
-                                <div class="activity-details">
-                                    <h5>Nueva incidencia detectada</h5>
-                                    <p>Perfil en Linkedin encontrado en sitio de terceros.</p>
-                                    <span class="activity-time">Hace 1 hora</span>
-                                </div>
-                            </div>
-
-                            <div class="activity-item">
-                                <div class="activity-icon warning"><svg class="icon-sm" viewBox="0 0 24 24"><path d="M2 12h4l2-9 5 18 2-9h5"></path></svg></div>
-                                <div class="activity-details">
-                                    <h5>Elemento reaparecido</h5>
-                                    <p>Perfil en Twitter reaparecido después de eliminarlo.</p>
-                                    <span class="activity-time">Hace 2 horas</span>
-                                </div>
-                            </div>
-
-                            <div class="activity-item" style="border-bottom: none;">
-                                <div class="activity-icon info"><svg class="icon-sm" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></div>
-                                <div class="activity-details">
-                                    <h5>Acción ejecutada</h5>
-                                    <p>Se ha ocultado perfil de persona en plataforma pública.</p>
-                                    <span class="activity-time">Hace 4 horas</span>
-                                </div>
-                            </div>
-
-                            <div class="activity-item" style="border-bottom: none;">
-                                <div class="activity-icon info"><svg class="icon-sm" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><line x1="9" y1="3" x2="9" y2="21"></line></svg></div>
-                                <div class="activity-details">
-                                    <h5>Acción ejecutada</h5>
-                                    <p>Se ha ocultado perfil de persona en plataforma pública.</p>
-                                    <span class="activity-time">Hace 5 horas</span>
-                                </div>
-                            </div>
-
-                        </div>
-                    </div>
-
                 </div>
             </div>
+
+            <script>
+                let isServiceActive = true;
+                let isScanning = false;
+
+                // Inicializar fecha al cargar
+                document.addEventListener('DOMContentLoaded', () => {
+                    updateDateStamp();
+                });
+
+                function updateDateStamp() {
+                    const now = new Date();
+                    document.getElementById('last-update').innerText = now.toLocaleString('es-ES', { day: '2-digit', month: 'long', year: 'numeric', hour: '2-digit', minute: '2-digit', second: '2-digit' });
+                }
+
+                function toggleService() {
+                    if (isScanning) return; // Bloquear si está analizando
+                    
+                    isServiceActive = !isServiceActive;
+                    const statusTitle = document.getElementById('status-title');
+                    const statusDesc = document.getElementById('status-desc');
+                    const statusIcon = document.getElementById('status-icon');
+                    const btnToggle = document.getElementById('btn-toggle-service');
+                    const mainCard = document.getElementById('main-status-card');
+                    const steps = document.querySelectorAll('.step-status');
+
+                    if (isServiceActive) {
+                        statusTitle.innerText = "Activo";
+                        statusTitle.style.color = "#10B981";
+                        statusDesc.innerText = "El proceso de protección está activo y en operación.";
+                        statusIcon.style.color = "#10B981";
+                        statusIcon.style.background = "rgba(16, 185, 129, 0.1)";
+                        statusIcon.innerHTML = '<svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>';
+                        mainCard.style.borderLeftColor = "#10B981";
+                        btnToggle.innerText = "Pausar Servicio";
+                        document.getElementById('btn-run-scan').style.opacity = "1";
+                        document.getElementById('btn-run-scan').style.cursor = "pointer";
+                        steps[3].innerText = "Activo";
+                        steps[3].style.color = "#10B981";
+                    } else {
+                        statusTitle.innerText = "Pausado";
+                        statusTitle.style.color = "#F59E0B";
+                        statusDesc.innerText = "La monitorización ha sido detenida. Tu huella no se está actualizando.";
+                        statusIcon.style.color = "#F59E0B";
+                        statusIcon.style.background = "rgba(245, 158, 11, 0.1)";
+                        statusIcon.innerHTML = '<svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="6" y="4" width="4" height="16"></rect><rect x="14" y="4" width="4" height="16"></rect></svg>';
+                        mainCard.style.borderLeftColor = "#F59E0B";
+                        btnToggle.innerText = "Reanudar Servicio";
+                        document.getElementById('btn-run-scan').style.opacity = "0.5";
+                        document.getElementById('btn-run-scan').style.cursor = "not-allowed";
+                        steps[3].innerText = "Pausado";
+                        steps[3].style.color = "#F59E0B";
+                    }
+                }
+
+                async function runManualScan() {
+                    if (!isServiceActive || isScanning) return;
+                    isScanning = true;
+
+                    const btnScan = document.getElementById('btn-run-scan');
+                    const statusTitle = document.getElementById('status-title');
+                    const statusDesc = document.getElementById('status-desc');
+                    const statusIcon = document.getElementById('status-icon');
+                    const mainCard = document.getElementById('main-status-card');
+                    const steps = document.querySelectorAll('.step-status');
+
+                    // FASE 1: Preparación visual
+                    btnScan.innerText = "Analizando red...";
+                    btnScan.style.opacity = "0.7";
+                    btnScan.style.cursor = "wait";
+                    
+                    statusTitle.innerText = "Escaneo en curso";
+                    statusTitle.style.color = "#3B82F6";
+                    statusDesc.innerText = "Sincronizando con APIs externas e indexando nuevos resultados.";
+                    statusIcon.style.color = "#3B82F6";
+                    statusIcon.style.background = "rgba(59, 130, 246, 0.1)";
+                    statusIcon.innerHTML = '<svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="animation: spin 2s linear infinite;"><path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.59-9.21L21.5 8"></path></svg>';
+                    mainCard.style.borderLeftColor = "#3B82F6";
+
+                    // FASE 2: Secuencia asíncrona de simulación
+                    steps[0].innerText = "Verificando hash..."; steps[0].style.color = "#3B82F6";
+                    await new Promise(r => setTimeout(r, 1800));
+                    steps[0].innerText = "Completado"; steps[0].style.color = "#10B981";
+                    
+                    steps[1].innerText = "Extrayendo datos..."; steps[1].style.color = "#3B82F6";
+                    await new Promise(r => setTimeout(r, 2200));
+                    steps[1].innerText = "Completado"; steps[1].style.color = "#10B981";
+                    
+                    steps[2].innerText = "Clasificando riesgos..."; steps[2].style.color = "#3B82F6";
+                    await new Promise(r => setTimeout(r, 1500));
+                    steps[2].innerText = "Completado"; steps[2].style.color = "#10B981";
+
+                    // FASE 3: Restauración del servicio
+                    updateDateStamp();
+                    
+                    statusTitle.innerText = "Activo";
+                    statusTitle.style.color = "#10B981";
+                    statusDesc.innerText = "El proceso de protección está activo y en operación.";
+                    statusIcon.style.color = "#10B981";
+                    statusIcon.style.background = "rgba(16, 185, 129, 0.1)";
+                    statusIcon.innerHTML = '<svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>';
+                    mainCard.style.borderLeftColor = "#10B981";
+
+                    btnScan.innerText = "Re-ejecutar análisis";
+                    btnScan.style.opacity = "1";
+                    btnScan.style.cursor = "pointer";
+                    
+                    // Resetear los pasos intermedios sutilmente después de unos segundos
+                    setTimeout(() => {
+                        steps[1].innerText = "En espera"; steps[1].style.color = "#3B82F6";
+                        steps[2].innerText = "En espera"; steps[2].style.color = "#3B82F6";
+                    }, 4000);
+
+                    isScanning = false;
+                }
+            </script>
+
+            <style>
+                @keyframes spin { 100% { transform: rotate(360deg); } }
+            </style>
         </main>
     </div>
 </body>

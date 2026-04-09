@@ -103,7 +103,13 @@ def get_all_incidents():
 @app.get("/activity")
 def get_all_activity():
     with engine.connect() as conn:
-        result = conn.execute(text("SELECT * FROM activity_log ORDER BY timestamp DESC"))
+        # Hacemos un JOIN para cruzar el ID del log con el valor real del elemento
+        result = conn.execute(text("""
+            SELECT a.*, e.value as element_value 
+            FROM activity_log a
+            LEFT JOIN elements e ON a.element_id = e.id
+            ORDER BY a.timestamp DESC
+        """))
         logs = [dict(row._mapping) for row in result]
     return logs
 
