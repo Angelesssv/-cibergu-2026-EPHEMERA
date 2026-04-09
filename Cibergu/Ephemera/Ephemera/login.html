@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EPHEMERA | Acceso Restringido</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <style>
+        .login-container { height: 100vh; display: flex; align-items: center; justify-content: center; background-color: var(--bg-primary); }
+        .login-box { background: var(--card-bg); padding: 3rem; border-radius: 8px; border: 1px solid var(--border-primary); width: 100%; max-width: 400px; box-shadow: 0 10px 25px rgba(0,0,0,0.5); }
+        .login-logo { color: var(--primary); font-size: 1.5rem; letter-spacing: 2px; text-align: center; margin-bottom: 2rem; font-weight: bold; }
+        .form-group { margin-bottom: 1.5rem; }
+        .form-group label { display: block; color: var(--text-secondary); font-size: 0.875rem; margin-bottom: 0.5rem; }
+        .form-control { width: 100%; padding: 0.75rem; background: var(--bg-secondary); border: 1px solid var(--border-secondary); color: var(--text-primary); border-radius: 4px; box-sizing: border-box; }
+        .form-control:focus { outline: none; border-color: var(--primary); }
+        
+        /* Estilo para el botón con icono */
+        .login-btn { 
+            width: 100%; 
+            padding: 0.875rem; 
+            font-size: 1rem; 
+            margin-top: 1rem; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            gap: 0.5rem; /* Espacio entre el candado y el texto */
+        }
+    </style>
+</head>
+<body class="dark-theme">
+    <div class="login-container">
+        <div class="login-box card"> <div class="login-logo">EPHEMERA</div>
+            <form action="dashboard.html" method="GET">
+                <div class="form-group">
+                    <label>Nombre de Usuario o Correo</label>
+                    <input type="text" class="form-control" value="miguel.trijueque" required>
+                </div>
+                <div class="form-group">
+                    <label>Contraseña</label>
+                    <input type="password" class="form-control" value="********" required>
+                </div>
+                <button type="submit" class="btn btn-primary login-btn">
+                    <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M11.5 6V4.5C11.5 2.567 9.933 1 8 1C6.067 1 4.5 2.567 4.5 4.5V6H3C2.447 6 2 6.447 2 7V13C2 13.553 2.447 14 3 14H13C13.553 14 14 13.553 14 13V7C14 6.447 13.553 6 13 6H11.5ZM5.5 4.5C5.5 3.119 6.619 2 8 2C9.381 2 10.5 3.119 10.5 4.5V6H5.5V4.5ZM13 13H3V7H13V13Z"/>
+                    </svg>
+                    Iniciar Sesión
+                </button>
+            </form>
+        </div>
+    </div>
+</body>
+</html>
