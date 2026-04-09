@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EPHEMERA | Controla tu identidad digital</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        /* --- VARIABLES GLOBALES --- */
+        :root {
+            --bg-top: #0A0F1F;
+            --bg-bottom: #05070D;
+            --accent: #2563EB;
+            --accent-glow: rgba(37, 99, 235, 0.4);
+            --text-main: #FFFFFF;
+            --text-muted: #9CA3AF;
+            --card-bg: rgba(255, 255, 255, 0.02);
+            --card-border: rgba(255, 255, 255, 0.05);
+            --transition: all 0.3s ease;
+        }
+
+        /* --- RESET Y BASE --- */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+        }
+
+        body {
+            background: linear-gradient(180deg, var(--bg-top) 0%, var(--bg-bottom) 100%);
+            color: var(--text-main);
+            min-height: 100vh;
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        /* Fondo de partículas/wave sutil usando pseudo-elemento */
+        body::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100vh;
+            background: radial-gradient(circle at 50% -20%, rgba(37, 99, 235, 0.15), transparent 60%);
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        /* --- BOTONES --- */
+        .btn {
+            display: inline-block;
+            padding: 0.875rem 2rem;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 500;
+            text-decoration: none;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .btn-primary {
+            background-color: var(--accent);
+            color: white;
+            border: 1px solid transparent;
+            box-shadow: 0 4px 20px var(--accent-glow);
+        }
+
+        .btn-primary:hover {
+            background-color: #1d4ed8;
+            box-shadow: 0 6px 25px rgba(37, 99, 235, 0.6);
+        }
+
+        .btn-secondary {
+            background-color: transparent;
+            color: var(--text-main);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .btn-secondary:hover {
+            border-color: var(--text-main);
+            background-color: rgba(255, 255, 255, 0.05);
+        }
+
+        /* --- SECCIÓN 1: HERO --- */
+        .hero {
+            text-align: center;
+            padding: 8rem 0 5rem 0;
+        }
+
+        .hero h1 {
+            font-size: clamp(2.5rem, 5vw, 4.5rem);
+            font-weight: 700;
+            letter-spacing: 0.2rem;
+            margin-bottom: 1rem;
+        }
+
+        .hero h2 {
+            font-size: clamp(1.25rem, 3vw, 2rem);
+            font-weight: 400;
+            color: var(--text-muted);
+            margin-bottom: 1.5rem;
+        }
+
+        .hero p {
+            max-width: 600px;
+            margin: 0 auto 3rem auto;
+            color: var(--text-muted);
+            font-size: 1.125rem;
+        }
+
+        .hero-actions {
+            display: flex;
+            gap: 1.5rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        /* --- SECCIÓN 2: HOW IT WORKS --- */
+        .section-title {
+            text-align: center;
+            font-size: 2rem;
+            margin-bottom: 4rem;
+            font-weight: 600;
+        }
+
+        .how-it-works {
+            padding: 5rem 0;
+        }
+
+        .grid-3 {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+        }
+
+        .card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            padding: 2.5rem 2rem;
+            border-radius: 12px;
+            transition: var(--transition);
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            border-color: rgba(37, 99, 235, 0.5);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+        }
+
+        .card-icon {
+            width: 48px;
+            height: 48px;
+            margin-bottom: 1.5rem;
+            border: 1px solid var(--text-muted);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .card-icon svg {
+            width: 24px;
+            height: 24px;
+            stroke: var(--text-main);
+            fill: none;
+            stroke-width: 2;
+        }
+
+        .card h3 {
+            font-size: 1.25rem;
+            margin-bottom: 1rem;
+            font-weight: 600;
+        }
+
+        .card p {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+        }
+
+        /* --- SECCIÓN 3: DASHBOARD PREVIEW --- */
+        .preview {
+            padding: 5rem 0;
+            text-align: center;
+        }
+
+        .preview-content {
+            margin-bottom: 4rem;
+        }
+
+        .preview-content h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .preview-content p {
+            color: var(--text-muted);
+            font-size: 1.125rem;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .preview-image-wrapper {
+            position: relative;
+            max-width: 1000px;
+            margin: 0 auto;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7);
+            border: 1px solid var(--card-border);
+        }
+
+        /* Placeholder para la imagen del Dashboard */
+        .preview-image-wrapper img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        /* --- SECCIÓN 4: VALUE SECTION --- */
+        .values {
+            padding: 5rem 0;
+        }
+        
+        .values-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 3rem;
+            text-align: left;
+            border-top: 1px solid var(--card-border);
+            padding-top: 4rem;
+        }
+
+        .value-item h3 {
+            font-size: 1.25rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .value-item p {
+            color: var(--text-muted);
+        }
+
+        /* --- SECCIÓN 5: FINAL CTA --- */
+        .cta-section {
+            padding: 8rem 0;
+            text-align: center;
+        }
+
+        .cta-section h2 {
+            font-size: 2.5rem;
+            margin-bottom: 2.5rem;
+        }
+
+        .cta-subtext {
+            display: block;
+            margin-top: 1.5rem;
+            color: var(--text-muted);
+            font-size: 0.875rem;
+        }
+
+/* --- SECCIÓN DE PRECIOS --- */
+        .pricing-section {
+            padding: 8rem 0;
+            text-align: center;
+        }
+
+        .pricing-header h2 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+        }
+
+        .pricing-header p {
+            color: var(--text-muted);
+            font-size: 1.125rem;
+            margin-bottom: 4rem;
+        }
+
+        .pricing-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+            width: 100%;
+            max-width: 1000px; /* Limita y agrupa las tarjetas al centro */
+            margin: 0 auto 3rem auto;
+            align-items: stretch;
+        }
+
+        .pricing-card {
+            background-color: #0B0F1A;
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            border-radius: 12px;
+            padding: 2.5rem 1.5rem;
+            transition: var(--transition);
+            display: flex;
+            flex-direction: column;
+            justify-content: center; /* Centrado vertical interno */
+            text-align: center;
+        }
+
+        .pricing-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+        }
+
+        .pricing-card.featured {
+            border-color: var(--accent);
+            box-shadow: 0 0 20px rgba(37, 99, 235, 0.15);
+            transform: scale(1.05);
+            position: relative;
+            background-color: #0A0F1F;
+        }
+
+        .pricing-card.featured:hover {
+            transform: scale(1.05) translateY(-5px);
+            box-shadow: 0 10px 30px rgba(37, 99, 235, 0.25);
+        }
+
+        .pricing-title {
+            font-size: 1.125rem;
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+            color: var(--text-main);
+        }
+
+        .pricing-time {
+            color: var(--accent);
+            font-size: 0.75rem;
+            margin-bottom: 1.5rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            display: block;
+        }
+
+        .pricing-price {
+            font-size: 3rem;
+            font-weight: 600;
+            margin-bottom: 2rem; /* Separación del botón */
+            line-height: 1;
+        }
+
+        .pricing-features-list {
+            width: 100%;
+            margin: 0 auto 3rem auto;
+            list-style: none;
+            padding: 0;
+            display: flex;
+            flex-wrap: wrap; /* Expande la lista horizontalmente */
+            justify-content: center;
+            gap: 1.5rem 3rem;
+        }
+
+        .pricing-features-list li {
+            color: var(--text-muted);
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-size: 1.05rem; /* Letra más grande */
+        }
+
+        .pricing-features-list li svg {
+            width: 20px; /* Icono más grande */
+            height: 20px;
+            stroke: var(--accent);
+            fill: none;
+            stroke-width: 2;
+            flex-shrink: 0;
+        }
+
+        .pricing-legal {
+            font-size: 0.75rem;
+            color: rgba(255, 255, 255, 0.3);
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        /* --- RESPONSIVIDAD (MÓVIL) --- */
+        @media (max-width: 900px) {
+            .grid-3, .values-grid, .pricing-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .pricing-grid { grid-template-columns: 1fr; }
+            .pricing-card.featured { transform: none; }
+            .pricing-card.featured:hover { transform: translateY(-5px); }
+        }
+        @media (max-width: 768px) {
+            .hero { padding: 5rem 0 3rem 0; }
+            .grid-3, .values-grid {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+            .hero-actions { flex-direction: column; }
+            .btn { width: 100%; text-align: center; }
+            .preview-content h2, .cta-section h2 { font-size: 2rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <section class="hero container">
+        <h1>EPHEMERA</h1>
+        <h2>Controla la visibilidad de tu identidad digital</h2>
+        <p>Decide qué existe, qué se muestra y qué desaparece de tu huella digital. Sin ruido. Sin exposición innecesaria.</p>
+        <div class="hero-actions">
+            <a href="login.html" class="btn btn-primary">Iniciar servicio</a>
+            <a href="" class="btn btn-primary" style="padding: 0.75rem 1.5rem; text-decoration: none;">Ver demo</a>
+        </div>
+    </section>
+
+    <section class="how-it-works container">
+        <h2 class="section-title">Cómo funciona</h2>
+        <div class="grid-3">
+            <div class="card">
+                <div class="card-icon">
+                    <svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+                </div>
+                <h3>Define identidad</h3>
+                <p>Configura los datos, perfiles y presencia digital que quieres gestionar.</p>
+            </div>
+            <div class="card">
+                <div class="card-icon">
+                    <svg viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+                </div>
+                <h3>Controla visibilidad</h3>
+                <p>Decide qué información es pública, privada o invisible en tiempo real.</p>
+            </div>
+            <div class="card">
+                <div class="card-icon">
+                    <svg viewBox="0 0 24 24"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+                </div>
+                <h3>Gestiona incidencias</h3>
+                <p>Detecta riesgos, recibe alertas y actúa antes de que escale.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="preview container">
+        <div class="preview-content">
+            <div style="text-align: center; margin-bottom: 4rem;">
+            <h2 style="font-size: 2.5rem; font-weight: 600; margin-bottom: 1rem; color: #ffffff;">
+                Control centralizado de tu exposición digital
+            </h2>
+            <p style="color: #9CA3AF; font-size: 1.125rem; max-width: 600px; margin: 0 auto 3rem auto;">
+                Supervisa tu exposición digital, detecta anomalías y actúa desde un único panel.
+            </p>
+            
+            <img src="panel.png" alt="Panel de control de EPHEMERA" style="width: 100%; max-width: 1000px; height: auto; border-radius: 12px; border: 1px solid rgba(255, 255, 255, 0.08); box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4); display: block; margin: 0 auto;">
+        </div>
+    </section>
+
+    <section class="values container">
+        <h2 class="section-title" style="margin-bottom: 2rem;">Diseñado para control total, no para vigilancia superficial</h2>
+        <div class="values-grid">
+            <div class="value-item">
+                <h3>Control estructurado</h3>
+                <p>Organiza y define tu identidad digital con precisión.</p>
+            </div>
+            <div class="value-item">
+                <h3>Gestión en tiempo real</h3>
+                <p>Actúa en el momento en que algo cambia.</p>
+            </div>
+            <div class="value-item">
+                <h3>Seguimiento continuo</h3>
+                <p>Monitoriza tu exposición sin esfuerzo constante.</p>
+            </div>
+        </div>
+    </section>
+
+<section class="pricing-section container">
+        <div class="pricing-header">
+            <h2>Duración de Intervención</h2>
+            <p>Selecciona el nivel de servicio según el tiempo que necesites</p>
+        </div>
+
+        <div class="pricing-grid">
+            <div class="pricing-card">
+                <h3 class="pricing-title">Inicial</h3>
+                <span class="pricing-time">7 DÍAS</span>
+                <div class="pricing-price">15,60€</div>
+                <a href="login.html" class="btn btn-secondary" style="width: 100%; text-align: center;">Iniciar servicio</a>
+            </div>
+
+            <div class="pricing-card featured">
+                <h3 class="pricing-title">Completa</h3>
+                <span class="pricing-time">30 DÍAS</span>
+                <div class="pricing-price">38,80€</div>
+                <a href="login.html" class="btn btn-primary" style="width: 100%; text-align: center;">Iniciar servicio</a>
+            </div>
+
+            <div class="pricing-card">
+                <h3 class="pricing-title">Extendida</h3>
+                <span class="pricing-time">90 DÍAS</span>
+                <div class="pricing-price">75,50€</div>
+                <a href="login.html" class="btn btn-secondary" style="width: 100%; text-align: center;">Iniciar servicio</a>
+            </div>
+        </div>
+
+        <div style="text-align: center; margin-top: 3.5rem; margin-bottom: 2.5rem; width: 100%;">
+            <h4 style="font-size: 1.5rem; font-weight: 500; color: #ffffff;">Todos los servicios incluyen:</h4>
+        </div>
+
+        <ul class="pricing-features-list">
+            <li><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg> Búsqueda exhaustiva y auditoría de exposición</li>
+            <li><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg> Análisis de vulnerabilidades y riesgos</li>
+            <li><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg> Informe estructurado con prioridades</li>
+            <li><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg> Alertas ante cambios relevantes</li>
+            <li><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg> Acceso a panel de control y seguimiento</li>
+        </ul>
+
+        <p class="pricing-legal">*Precios en EUR. Coste por unidad de tiempo. Servicio no renovable automáticamente. Resultados sujetos a la naturaleza de la exposición digital y a terceros.</p>
+    </section>
+
+    <section class="cta-section container">
+        <h2>Empieza a controlar tu identidad digital hoy</h2>
+        <a href="login.html" class="btn btn-primary">Iniciar servicio</a>
+        <span class="cta-subtext">Sin configuración compleja. Control desde el primer minuto.</span>
+    </section>
+
+</body>
+</html>

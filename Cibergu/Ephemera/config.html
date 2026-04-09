@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EPHEMERA | Configuración</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/layout.css">
+    <link rel="stylesheet" href="css/components.css">
+    <style>
+        /* --- ESTILOS AISLADOS: GESTIÓN DE EXPOSICIÓN (CONFIG) --- */
+        .pricing-section-config {
+            margin-top: 4rem;
+            padding-top: 3rem;
+            border-top: 1px solid var(--border-primary, rgba(255,255,255,0.05));
+            width: 100%; /* Fuerza a la sección a usar todo el ancho */
+        }
+
+        .pricing-header-config {
+            text-align: center; /* Centra los textos para que quede como la landing */
+            margin-bottom: 3.5rem; /* Este es el espacio exacto debajo del texto */
+        }
+
+        .pricing-header-config h2 {
+            font-size: 1.75rem;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: #ffffff;
+        }
+
+        .pricing-header-config p {
+            color: #9CA3AF;
+            font-size: 1rem;
+        }
+        
+        .pricing-grid-config {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr); 
+            gap: 2rem; /* He aumentado un poco el gap para que respiren mejor al expandirse */
+            width: 100%; /* Fuerza a las tarjetas a estirarse de extremo a extremo */
+            margin-bottom: 3rem;
+            align-items: stretch;
+        }
+
+        /* La regla para móviles se mantiene igual */
+        @media (max-width: 900px) {
+            .pricing-grid-config {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .pricing-card-config {
+            background-color: #0B0F1A;
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            border-radius: 12px;
+            padding: 2.5rem 1.5rem;
+            transition: all 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            justify-content: center; /* Centra todo el contenido verticalmente en la tarjeta */
+            text-align: center;
+        }
+
+        .pricing-card-config:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+        }
+
+        .pricing-card-config.featured {
+            border-color: #2563EB;
+            box-shadow: 0 0 20px rgba(37, 99, 235, 0.15);
+            background-color: #0A0F1F;
+            transform: scale(1.02);
+        }
+
+        .pricing-card-config.featured:hover { transform: scale(1.02) translateY(-4px); }
+
+        .p-title { font-size: 1.125rem; font-weight: 500; margin-bottom: 0.5rem; color: #fff; }
+        .p-time { color: #2563EB; font-size: 0.75rem; margin-bottom: 1.5rem; text-transform: uppercase; letter-spacing: 0.05em; display: block; }
+        .p-price { 
+            font-size: 3rem; 
+            font-weight: 600; 
+            margin-bottom: 2rem; /* Aumenta el espacio para separar el precio del botón */
+            line-height: 1; 
+        }
+        .p-desc { color: #9CA3AF; font-size: 0.85rem; margin-bottom: 2rem; flex-grow: 1; }
+        
+        .p-features {
+            width: 100%;
+            margin: 0 auto 3rem auto;
+            list-style: none;
+            padding: 0;
+            display: flex;
+            flex-wrap: wrap; /* Permite que los elementos pasen a la siguiente línea si no caben */
+            justify-content: center; /* Centra todo el bloque horizontalmente */
+            gap: 1.5rem 3rem; /* Espaciado vertical y horizontal entre los elementos */
+        }
+        
+        .p-features li {
+            color: #9CA3AF;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-size: 1.05rem; /* Letra más grande */
+        }
+        
+        .p-features li svg { 
+            width: 20px; /* Icono más grande */
+            height: 20px; 
+            stroke: #2563EB; 
+            fill: none; 
+            stroke-width: 2; 
+            flex-shrink: 0; 
+        }
+        .p-legal { font-size: 0.75rem; color: rgba(255, 255, 255, 0.3); text-align: center; }
+    </style>
+</head>
+<body class="dark-theme">
+    <div class="app-container">
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <img src="logo.png" alt="Logo de EPHEMERA" class="app-logo">
+                <h1 class="logo">EPHEMERA</h1>
+            </div>
+            <nav class="sidebar-nav">
+                <a href="dashboard.html" class="nav-item">Panel</a>
+                <a href="huella.html" class="nav-item">Huella Digital</a>
+                <a href="incidencias.html" class="nav-item">Incidencias</a>
+                <a href="evidencia.html" class="nav-item">Evidencia</a>
+                <a href="historial.html" class="nav-item">Historial</a>
+                <a href="estado.html" class="nav-item">Estado del Servicio</a>
+                <a href="config.html" class="nav-item">Configuración</a>
+            </nav>
+        </aside>
+
+        <main class="main-content">
+            <header class="topbar">
+                <h2>Configuración del Sistema</h2>
+                <button class="btn btn-primary">Guardar Cambios</button>
+            </header>
+            
+            <div class="view-container">
+                <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(400px, 1fr)); gap: 1.5rem;">
+                    
+                    <div class="card">
+                        <h3 style="margin-bottom: 1.5rem; font-size: 1.125rem; border-bottom: 1px solid var(--border-primary); padding-bottom: 0.5rem;">Autenticación</h3>
+                        <div style="margin-bottom: 1rem; display: flex; justify-content: space-between; align-items: center;">
+                            <div>
+                                <h4 style="font-size: 0.875rem;">Verificación en Dos Pasos (2FA)</h4>
+                                <p style="font-size: 0.75rem; color: var(--text-muted);">Añade una capa extra de seguridad.</p>
+                            </div>
+                            <span class="badge badge-visible">Activado</span>
+                        </div>
+                        <div style="display: flex; justify-content: space-between; align-items: center;">
+                            <div>
+                                <h4 style="font-size: 0.875rem;">Método de Autenticación</h4>
+                                <p style="font-size: 0.75rem; color: var(--text-muted);">Aplicación de Autenticación (Google Auth)</p>
+                            </div>
+                            <button class="btn btn-secondary" style="font-size: 0.75rem;">Modificar</button>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <h3 style="margin-bottom: 1.5rem; font-size: 1.125rem; border-bottom: 1px solid var(--border-primary); padding-bottom: 0.5rem;">Alertas de Incidencias</h3>
+                        <div style="margin-bottom: 1.5rem;">
+                            <h4 style="font-size: 0.875rem; margin-bottom: 0.5rem;">Nivel de Sensibilidad</h4>
+                            <div style="display: flex; gap: 0.5rem;">
+                                <button class="btn btn-secondary" style="flex: 1;">Bajo</button>
+                                <button class="btn btn-primary" style="flex: 1;">Medio</button>
+                                <button class="btn btn-secondary" style="flex: 1;">Alto</button>
+                            </div>
+                        </div>
+                        <div style="display: flex; justify-content: space-between; align-items: center;">
+                            <span style="font-size: 0.875rem;">Alertas Push (Navegador)</span>
+                            <span class="badge badge-retirado">OFF</span>
+                        </div>
+                    </div>
+                </div> <div class="pricing-section-config">
+                    <div class="pricing-header-config">
+                        <h2>Duración de Intervención</h2>
+                        <p>Selecciona el nivel de servicio según el tiempo que necesites</p>
+                    </div>
+
+                    <div class="pricing-grid-config">
+                        <div class="pricing-card-config">
+                            <h3 class="p-title">Inicial</h3>
+                            <span class="p-time">7 DÍAS</span>
+                            <div class="p-price">15,60€</div>
+                            <button class="btn btn-secondary" style="width: 100%;">Iniciar servicio</button>
+                        </div>
+
+                        <div class="pricing-card-config featured">
+                            <h3 class="p-title">Completa</h3>
+                            <span class="p-time">30 DÍAS</span>
+                            <div class="p-price">38,80€</div>
+                            <button class="btn btn-primary" style="width: 100%;">Iniciar servicio</button>
+                        </div>
+
+                        <div class="pricing-card-config">
+                            <h3 class="p-title">Extendida</h3>
+                            <span class="p-time">90 DÍAS</span>
+                            <div class="p-price">75,50€</div>
+                            <button class="btn btn-secondary" style="width: 100%;">Iniciar servicio</button>
+                        </div>
+                    </div>
+
+                    <div style="text-align: center; margin-top: 3.5rem; margin-bottom: 2.5rem; width: 100%;">
+                        <h4 style="font-size: 1.5rem; font-weight: 500; color: #ffffff;">Todos los servicios incluyen:</h4>
+                    </div>
+                    <ul class="p-features">
+                        <li><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg> Búsqueda exhaustiva y auditoría de exposición</li>
+                        <li><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg> Análisis de vulnerabilidades y riesgos</li>
+                        <li><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg> Informe estructurado con prioridades</li>
+                        <li><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg> Alertas ante cambios relevantes</li>
+                        <li><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg> Acceso a panel de control y seguimiento</li>
+                    </ul>
+
+                    <p class="p-legal">*Precios en EUR. Coste por unidad de tiempo. Servicio no renovable automáticamente. Resultados sujetos a la naturaleza de la exposición digital y a terceros.</p>
+                </div>
+
+            </div> 
+        </main>
+    </div>
+</body>
+</html>
