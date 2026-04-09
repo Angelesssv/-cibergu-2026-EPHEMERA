@@ -30,6 +30,7 @@ const apiUpdateVisibility = (elementId, newStatus, userId) =>
 const apiGetIncidents = () => fetchAPI('/incidents');
 const apiGetActivity = () => fetchAPI('/activity');
 const apiGetEvidences = (caseId) => fetchAPI(`/evidences/${caseId}`);
+const apiDecryptData = (encryptedText) => fetchAPI('/decrypt', 'POST', { data: encryptedText });
 
 // --- HELPER DE ESTADOS VISUALES ---
 const getBadgeHTML = (status) => {
@@ -38,9 +39,9 @@ const getBadgeHTML = (status) => {
         'ocultado': 'badge-oculto',
         'retirado': 'badge-retirado',
         'desindexado': 'badge-desindexado',
-        'alto': 'badge-retirado', // Riesgo Alto
-        'medio': 'badge-oculto',  // Riesgo Medio
-        'bajo': 'badge-visible'   // Riesgo Bajo
+        'alto': 'badge-retirado',
+        'medio': 'badge-oculto',  
+        'bajo': 'badge-visible'   
     };
     const cssClass = states[status?.toLowerCase()] || 'badge-visible';
     return `<span class="badge ${cssClass}">${status || 'N/A'}</span>`;
@@ -55,32 +56,27 @@ const formatDate = (isoString) => {
 // --- RENDERIZADO: PANEL DE CONTROL (DASHBOARD) ---
 const renderDashboard = async () => {
     const kpiDetectados = document.getElementById('kpi-detectados');
-    if (!kpiDetectados) return; // Salida temprana si no estamos en el dashboard
+    if (!kpiDetectados) return;
 
-    // Mostrar estado de carga
     kpiDetectados.innerText = "...";
     document.getElementById('kpi-ocultados').innerText = "...";
     document.getElementById('kpi-incidencias').innerText = "...";
     document.getElementById('kpi-exposicion').innerText = "...";
 
-    // Llamadas concurrentes a la API para mayor velocidad
     const [elements, incidents, activity] = await Promise.all([
         apiGetElements(APP_CONFIG.currentCaseId),
-        apiGetIncidents(), // Asumiendo que trae todas las incidencias
+        apiGetIncidents(),
         apiGetActivity()
     ]);
 
-    // Cálculos seguros (con fallback si falla la red)
     const dataElements = elements || [];
     const dataIncidents = incidents || [];
     const dataActivity = activity || [];
 
     const totalDetectados = dataElements.length;
-    // Ocultados = cualquier cosa que no sea visible
     const totalOcultados = dataElements.filter(el => el.visibility_status !== 'visible').length; 
     const totalIncidencias = dataIncidents.length;
     
-    // Lógica de exposición
     let nivelExposicion = "Bajo";
     let colorExposicion = "var(--success, #10B981)";
     if (totalIncidencias >= 5) {
@@ -91,7 +87,6 @@ const renderDashboard = async () => {
         colorExposicion = "var(--warning)";
     }
 
-    // Inyectar KPIs
     kpiDetectados.innerText = totalDetectados;
     document.getElementById('kpi-ocultados').innerText = totalOcultados;
     document.getElementById('kpi-incidencias').innerText = totalIncidencias;
@@ -100,7 +95,6 @@ const renderDashboard = async () => {
     kpiExp.innerText = nivelExposicion;
     kpiExp.style.color = colorExposicion;
 
-    // Renderizar Actividad Reciente (solo los últimos 3 eventos)
     const activityList = document.getElementById('dashboard-activity-list');
     activityList.innerHTML = ''; 
 
@@ -110,11 +104,9 @@ const renderDashboard = async () => {
     }
 
     dataActivity.slice(0, 3).forEach((log, index) => {
-        // Quitar el borde inferior al último elemento para respetar tu diseño
         const isLast = index === 2 || index === dataActivity.length - 1;
         const borderStyle = isLast ? '' : 'border-bottom: 1px solid var(--border-primary);';
         
-        // Formateo del título del evento
         let titleColor = "var(--text-primary)";
         let titleText = log.action;
         if (log.action === 'change_visibility') {
@@ -122,7 +114,7 @@ const renderDashboard = async () => {
             if (log.new_value !== 'visible') titleColor = "var(--warning)";
         } else if (log.action === 'create') {
             titleText = "Nuevo elemento monitorizado";
-            titleColor = "var(--accent)"; // Color azul
+            titleColor = "var(--accent)"; 
         }
 
         const li = document.createElement('li');
@@ -135,36 +127,134 @@ const renderDashboard = async () => {
     });
 };
 
+// ==========================================
+// --- MOTOR DE SIMULACIÓN Y CIFRADO (HUELLA DIGITAL) ---
+// ==========================================
+const HuellaState = {
+    decryptedItems: new Map(), // CLAVE: Debe ser Map(), no Set()
+    processingItems: {} 
+};
+
+const sleep = (ms) => new Promise(resolve => setTimeout(resolve, ms));
+const randomDelay = (min, max) => Math.floor(Math.random() * (max - min + 1)) + min;
+
+window.revealData = async (itemId, encryptedValue) => {
+    if (HuellaState.decryptedItems.has(itemId)) return;
+
+    const btn = document.getElementById(`btn-crypto-${itemId}`);
+    if (btn) {
+        btn.innerText = "⏳ Decrypting...";
+        btn.disabled = true;
+        btn.style.opacity = "0.5";
+    }
+
+    HuellaState.processingItems[itemId] = { step: "Decrypt request initiated" };
+    console.log(`[${itemId}] Access requested`); 
+
+    try {
+        const res = await apiDecryptData(encryptedValue);
+        
+        if (res && res.decrypted) {
+            HuellaState.decryptedItems.set(itemId, res.decrypted);
+            console.log(`[${itemId}] Data decrypted`);
+            HuellaState.processingItems[itemId] = { step: "Access granted" };
+        } else {
+            alert("Error: Integridad de cifrado comprometida.");
+        }
+    } catch (e) {
+        console.error("Error en descifrado:", e);
+    }
+
+    delete HuellaState.processingItems[itemId];
+    renderHuellaTable();
+};
+
 // --- RENDERIZADO: HUELLA DIGITAL ---
 const renderHuellaTable = async () => {
     const tbody = document.getElementById('table-elements-body');
     if (!tbody) return;
 
-    tbody.innerHTML = `<tr><td colspan="5" style="text-align:center; padding: 2rem;">Conectando con FastAPI...</td></tr>`;
+    if (!document.getElementById('security-banner')) {
+        const topbar = document.querySelector('.topbar');
+        if (topbar) {
+            const banner = document.createElement('div');
+            banner.id = 'security-banner';
+            banner.innerHTML = `<span style="font-size: 0.75rem; color: #10B981; font-family: monospace;">🔒 All identifiers are processed in encrypted form (AES-256)</span>`;
+            topbar.appendChild(banner);
+        }
+    }
+
+    if (tbody.innerHTML.trim() === '') {
+        tbody.innerHTML = `<tr><td colspan="5" style="text-align:center; padding: 2rem;">Conectando con FastAPI...</td></tr>`;
+    }
+
     const elements = await apiGetElements(APP_CONFIG.currentCaseId);
     
     if (!elements || elements.length === 0) {
-        tbody.innerHTML = `<tr><td colspan="5" style="text-align:center; padding: 2rem;">No hay elementos en la base de datos.</td></tr>`;
+        tbody.innerHTML = `<tr><td colspan="5" style="text-align:center; padding: 2rem; color: #9CA3AF;">No hay elementos en la base de datos.</td></tr>`;
         return;
     }
 
     tbody.innerHTML = ''; 
     elements.forEach(el => {
         const tr = document.createElement('tr');
-        tr.innerHTML = `
-            <td>${el.type}</td>
-            <td>${el.value}</td>
-            <td>API Backend</td>
-            <td>${getBadgeHTML(el.visibility_status)}</td>
-            <td>
-                <select class="status-selector btn-secondary" data-id="${el.id}" style="padding: 4px; border-radius: 4px; font-size:0.75rem;">
-                    <option value="" disabled selected>Cambiar estado</option>
-                    <option value="visible">Visible</option>
-                    <option value="ocultado">Ocultar</option>
-                    <option value="retirado">Retirar</option>
-                    <option value="desindexado">Desindexar</option>
+        
+        const isProcessing = HuellaState.processingItems[el.id];
+
+        if(el.visibility_status === 'retirado') tr.style.opacity = '0.4';
+        if(el.visibility_status === 'ocultado') tr.style.opacity = '0.7';
+
+        const encryptedData = String(el.value || "gAAAAA_DATA_MISSING");
+        const originalData = HuellaState.decryptedItems.get(el.id) || null;
+        const isDecrypted = !!originalData;
+
+        const cryptoContent = isDecrypted 
+            ? `<span style="font-family: monospace; color: #10B981;">Decrypted: ${originalData}</span>`
+            : `<span style="font-family: monospace; color: #6B7280; user-select: none;">Encrypted: ${encryptedData.slice(0, 25)}...</span>`;
+
+        const cryptoLabel = isDecrypted 
+            ? `<span style="font-size: 0.7rem; color: #10B981; margin-bottom: 4px; display: block; font-weight: bold;">CONTENT REVEALED (SERVER SECURED)</span>`
+            : `<span style="font-size: 0.7rem; color: #EF4444; margin-bottom: 4px; display: block; font-weight: bold;">CONTENT PROTECTED (AES-256)</span>`;
+
+        const safeDataForButton = encryptedData.replace(/'/g, "\\'");
+
+        const decryptButton = isDecrypted 
+            ? `` 
+            : `<button id="btn-crypto-${el.id}" onclick="revealData('${el.id}', '${safeDataForButton}')" style="margin-top: 8px; background: transparent; border: 1px solid #3B82F6; color: #3B82F6; font-size: 0.7rem; padding: 4px 8px; border-radius: 4px; cursor: pointer; transition: 0.2s;" onmouseover="this.style.background='#3B82F6'; this.style.color='#fff';" onmouseout="this.style.background='transparent'; this.style.color='#3B82F6';">
+                  Reveal sensitive data
+               </button>`;
+
+        let actionColumn = '';
+        if (isProcessing) {
+            actionColumn = `
+                <div style="display: flex; flex-direction: column; gap: 4px;">
+                    <span style="color: #3B82F6; font-size: 0.8rem; font-weight: bold; animation: pulse 1.5s infinite;">Processing...</span>
+                    <span style="color: #9CA3AF; font-size: 0.7rem;">${isProcessing.step}</span>
+                </div>
+            `;
+        } else {
+            actionColumn = `
+                <select class="status-selector btn-secondary" data-id="${el.id}" style="padding: 4px; border-radius: 4px; font-size:0.75rem;" ${['retirado', 'desindexado'].includes(el.visibility_status) ? 'disabled' : ''}>
+                    <option value="" disabled ${!['visible','ocultado','retirado','desindexado'].includes(el.visibility_status) ? 'selected' : ''}>Cambiar estado</option>
+                    <option value="visible" ${el.visibility_status === 'visible' ? 'selected' : ''}>Visible</option>
+                    <option value="ocultado" ${el.visibility_status === 'ocultado' ? 'selected' : ''}>Ocultar</option>
+                    <option value="retirado" ${el.visibility_status === 'retirado' ? 'selected' : ''}>Retirar</option>
+                    <option value="desindexado" ${el.visibility_status === 'desindexado' ? 'selected' : ''}>Desindexar</option>
                 </select>
+            `;
+        }
+
+        tr.innerHTML = `
+            <td style="vertical-align: middle;"><span style="text-transform: capitalize;">${el.type || 'N/A'}</span></td>
+            <td style="max-width: 300px; vertical-align: middle;">
+                ${cryptoLabel}
+                ${cryptoContent}
+                <br>
+                ${decryptButton}
             </td>
+            <td style="vertical-align: middle; color: #9CA3AF;">API Backend</td>
+            <td style="vertical-align: middle;">${getBadgeHTML(el.visibility_status)}</td>
+            <td style="vertical-align: middle;">${actionColumn}</td>
         `;
         tbody.appendChild(tr);
     });
@@ -173,7 +263,31 @@ const renderHuellaTable = async () => {
         select.addEventListener('change', async (e) => {
             const elementId = e.target.getAttribute('data-id');
             const newStatus = e.target.value;
+            
+            HuellaState.processingItems[elementId] = { step: "Queued for processing" };
+            renderHuellaTable();
+            
+            await sleep(randomDelay(400, 900));
+            HuellaState.processingItems[elementId].step = "Validating ownership...";
+            renderHuellaTable();
+
+            await sleep(randomDelay(900, 1200));
+            HuellaState.processingItems[elementId].step = "Encrypting sensitive data (AES)";
+            renderHuellaTable();
+
+            await sleep(randomDelay(1200, 1500));
+            HuellaState.processingItems[elementId].step = "Rewriting secure state";
+            HuellaState.decryptedItems.delete(elementId); 
+            renderHuellaTable();
+
+            await sleep(randomDelay(1500, 2200));
+            HuellaState.processingItems[elementId].step = "Propagating changes to network...";
+            renderHuellaTable();
+            await sleep(randomDelay(800, 1200));
+
             await apiUpdateVisibility(elementId, newStatus, APP_CONFIG.currentUserId);
+            
+            delete HuellaState.processingItems[elementId];
             renderHuellaTable(); 
         });
     });
@@ -235,10 +349,8 @@ const renderHistorial = async () => {
     logs.forEach(log => {
         let actionFormat = log.action === 'change_visibility' ? 'Cambio Estado' : log.action;
         
-        // Recuperamos el valor del elemento que cruzamos en el backend
         let elementValue = log.element_value ? log.element_value : 'Elemento desconocido';
         
-        // Formateamos en dos líneas: El elemento afectado arriba, el cambio debajo
         let detailFormat = `
             <span style="color: #E2E8F0; font-weight: 500; display: block; margin-bottom: 2px;">${elementValue}</span>
             <span style="font-size: 0.8rem; color: #9CA3AF;">De '${log.old_value || 'N/A'}' a '${log.new_value || 'N/A'}'</span>
@@ -299,7 +411,6 @@ document.addEventListener('DOMContentLoaded', () => {
     if (document.getElementById('kpi-detectados')) {
         renderDashboard();
     }
-    // Detectamos en qué página estamos según el ID que encontremos en el DOM
     if (document.getElementById('table-elements-body')) {
         renderHuellaTable();
         const btnAdd = document.getElementById('btn-add-element');
@@ -330,8 +441,5 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (document.getElementById('evidencias-grid')) {
         renderEvidencias();
-    }
-    if (document.getElementById('kpi-detectados')) {
-        renderDashboard();
     }
 });

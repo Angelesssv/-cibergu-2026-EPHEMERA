@@ -40,17 +40,21 @@
     </style>
 </head>
 <body>
+    <div style="position: absolute; top: 2rem; left: 2rem; z-index: 1000;">
+        <a href="index.html" style="display: flex; align-items: center; gap: 10px; text-decoration: none; cursor: pointer; transition: opacity 0.2s ease;" onmouseover="this.style.opacity='0.8'" onmouseout="this.style.opacity='1'">
+            <img src="logo.png" alt="Logo" style="width: 75px !important; min-width: 75px !important; height: auto !important; object-fit: contain; flex-shrink: 0; display: block;">
+            <span style="color: #3B82F6; font-size: 1.35rem; font-weight: 800; letter-spacing: 0.05em; text-transform: uppercase; line-height: 1; margin-top: 2px;">EPHEMERA</span>
+        </a>
+    </div>
+
     <div class="demo-container">
-        <div class="header-section">
-            <img src="logo.png" alt="Logo de EPHEMERA" style="width: 320px; height: auto; margin-bottom: 1rem;">
-            <div>
-                <h2 style="margin: 0; font-size: 2.2rem;">Análisis Completado</h2>
-                <p style="color: #9CA3AF; margin: 8px 0 0 0; font-size: 1.1rem;">Usuario: miguel.trijueque</p>
-                <span style="display: inline-flex; align-items: center; gap: 8px; color: #10B981; font-size: 0.9rem; margin-top: 12px;">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
-                    Datos protegidos mediante hashing
-                </span>
-            </div>
+        <div style="margin-bottom: 2rem;">
+            <h2 style="margin: 0; font-size: 2.2rem;">Análisis Completado</h2>
+            <p style="color: #9CA3AF; margin: 8px 0 0 0; font-size: 1.1rem;">Usuario: miguel.trijueque</p>
+            <span style="display: inline-flex; align-items: center; gap: 8px; color: #10B981; font-size: 0.9rem; margin-top: 12px;">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+                Datos protegidos mediante cifrado AES-256
+            </span>
         </div>
 
         <div id="loading-screen" class="loading-screen">
@@ -70,9 +74,9 @@
                     <div style="font-size: 1.1rem; font-weight: 600;">Instagram / Web</div>
                 </div>
                 <div style="text-align: right;">
-                    <div style="font-size: 0.75rem; color: #9CA3AF; text-transform: uppercase;">Código Hash (SHA-256)</div>
-                    <div style="font-size: 0.9rem; font-family: monospace; color: #6B7280;">e3b0c44298fc1c149afbf...</div>
-                </div>
+    <div style="font-size: 0.75rem; color: #9CA3AF; text-transform: uppercase;">Token Cifrado (AES-256)</div>
+    <div style="font-size: 0.9rem; font-family: monospace; color: #6B7280;">gAAAAABX3h4j8kL9mNpQ...</div>
+</div>
             </div>
 
             <h3 style="margin-bottom: 1.5rem; font-size: 1.2rem;">Evidencias de Exposición Detectadas (7)</h3>
@@ -98,13 +102,13 @@
         
         // DATOS REALES DE LAS 7 IMÁGENES
         const demoResults = [
-            { id: 1, title: "Mención negativa detectada (Matei)", description: "_matei.bl_: @migueeltriju_08 me cae fatal 👎👎", source: "Instagram", match_type: "DIRECTO", risk: "alto", confidence: 99, status: "visible", image: "mecaefatal.jpg" },
-            { id: 2, title: "Repositorio de código expuesto", description: "Captura de código fuente (mtrijueque.tech / dataDB.json)", source: "Instagram / GitHub", match_type: "EXACTO", risk: "medio", confidence: 95, status: "visible", image: "mtrijueque.tech.jpg" },
-            { id: 3, title: "Publicación técnica personal", description: "Captura de entorno de desarrollo (VS Code / React)", source: "Instagram", match_type: "ASOCIADO", risk: "bajo", confidence: 88, status: "visible", image: "vscode.jpg" },
-            { id: 4, title: "Interacción pública (Comentario)", description: "Comentario: 'Crazy'", source: "Instagram", match_type: "ALIAS", risk: "bajo", confidence: 100, status: "visible", image: "Crazy.jpg" },
-            { id: 5, title: "Interacción pública (Comentario)", description: "Comentario: 'World because is not 15'", source: "Instagram", match_type: "ALIAS", risk: "bajo", confidence: 100, status: "visible", image: "World_because_is_not_15.jpg" },
-            { id: 6, title: "Interés detectado: IA", description: "Comentario: 'Programación e IA'", source: "Instagram", match_type: "PERFILADO", risk: "bajo", confidence: 94, status: "visible", image: "comentario_IA.jpg" },
-            { id: 7, title: "Interacción extensa detectada", description: "Petición de contenido sobre informática e IA", source: "Instagram", match_type: "PERFILADO", risk: "medio", confidence: 92, status: "visible", image: "IA.jpg" }
+            { id: 1, title: "Mención negativa detectada (Matei)", description: "_matei.bl_: @migueeltriju_08 me cae fatal 👎👎", source: "Instagram", match_type: "DIRECTO", risk: "alto", confidence: 99, image: "mecaefatal.jpg" },
+            { id: 2, title: "Repositorio de código expuesto", description: "Captura de código fuente (mtrijueque.tech / dataDB.json)", source: "Instagram / GitHub", match_type: "EXACTO", risk: "medio", confidence: 95, image: "mtrijueque.tech.jpg" },
+            { id: 3, title: "Publicación técnica personal", description: "Captura de entorno de desarrollo (VS Code / React)", source: "Instagram", match_type: "ASOCIADO", risk: "bajo", confidence: 88, image: "vscode.jpg" },
+            { id: 4, title: "Interacción pública (Comentario)", description: "Comentario: 'Crazy'", source: "Instagram", match_type: "ALIAS", risk: "bajo", confidence: 100, image: "Crazy.jpg" },
+            { id: 5, title: "Interacción pública (Comentario)", description: "Comentario: 'World because is not 15'", source: "Instagram", match_type: "ALIAS", risk: "bajo", confidence: 100, image: "World_because_is_not_15.jpg" },
+            { id: 6, title: "Interés detectado: IA", description: "Comentario: 'Programación e IA'", source: "Instagram", match_type: "PERFILADO", risk: "bajo", confidence: 94, image: "comentario_IA.jpg" },
+            { id: 7, title: "Interacción extensa detectada", description: "Petición de contenido sobre informática e IA", source: "Instagram", match_type: "PERFILADO", risk: "medio", confidence: 92, image: "IA.jpg" }
         ];
 
         document.addEventListener('DOMContentLoaded', () => {
@@ -115,7 +119,7 @@
             const loadingText = document.getElementById('loading-text');
             
             setTimeout(() => { loadingText.innerText = "Analizando fuentes públicas y redes sociales..."; }, 0);
-            setTimeout(() => { loadingText.innerText = "Aplicando Hashing SHA-256 a la identidad..."; }, 1200);
+            setTimeout(() => { loadingText.innerText = "Aplicando cifrado simétrico (AES-256) a la identidad..."; }, 1200);
             setTimeout(() => { loadingText.innerText = "Correlacionando alias: migueeltriju_08..."; }, 2400);
             setTimeout(() => { loadingText.innerText = "Clasificando vulnerabilidades y menciones..."; }, 3600);
 
@@ -150,11 +154,6 @@
                         </p>
                     </div>
                     <div style="display: flex; gap: 10px; align-items: center; margin-left: 1rem;">
-                         <select class="status-selector btn-secondary" style="padding: 6px; border-radius: 4px; cursor: pointer; background: #111827;">
-                            <option value="visible" ${item.status === 'visible' ? 'selected' : ''}>Visible</option>
-                            <option value="oculto" ${item.status === 'oculto' ? 'selected' : ''}>Ocultar</option>
-                            <option value="retirado" ${item.status === 'retirado' ? 'selected' : ''}>Retirar</option>
-                        </select>
                         <button class="btn-secondary" onclick="openModal('${item.title}', '${item.image}')">Ver registro completo</button>
                     </div>
                 `;
@@ -166,8 +165,7 @@
         
         function openModal(title, imageSrc) {
             document.getElementById("modalTitle").innerText = title;
-            document.getElementById("modalHash").innerText = "ID de Evidencia Hash: " + btoa(imageSrc).substring(0, 24).toUpperCase();
-            
+            document.getElementById("modalHash").innerText = "Token de Evidencia Cifrada: gAAAAABX" + btoa(imageSrc).substring(0, 24);
             // La ruta ahora asume que las imágenes están en la misma carpeta que demo.html
             document.getElementById("modalImage").src = imageSrc; 
             modal.style.display = "flex";

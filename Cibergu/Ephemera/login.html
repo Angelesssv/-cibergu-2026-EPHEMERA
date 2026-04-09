@@ -48,5 +48,29 @@
             </form>
         </div>
     </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Busca el botón de iniciar sesión (asumiendo que es un elemento <button> o un <input type="submit">)
+            const loginButton = document.querySelector('button') || document.querySelector('input[type="submit"]');
+            
+            if (loginButton) {
+                loginButton.addEventListener('click', (e) => {
+                    e.preventDefault(); // Bloquea la recarga automática de la página
+
+                    // Leer la URL para saber de dónde viene el usuario
+                    const urlParams = new URLSearchParams(window.location.search);
+                    
+                    // Si la URL contiene "?flow=demo", va a la simulación
+                    if (urlParams.get('flow') === 'demo') {
+                        window.location.href = 'demo.html';
+                    } else {
+                        // Si es un inicio de sesión normal, va al panel
+                        window.location.href = 'dashboard.html';
+                    }
+                });
+            }
+        });
+    </script>
+</body>
 </body>
 </html>

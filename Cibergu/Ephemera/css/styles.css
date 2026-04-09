@@ -44,6 +44,19 @@
 
 /* 1. ANIMACIONES CORE DEFINITIONS */
 
+/* Animación del estado Processing */
+@keyframes pulse {
+    0% { opacity: 1; }
+    50% { opacity: 0.4; }
+    100% { opacity: 1; }
+}
+
+/* Colores de los badges de estado para que coincida con el JS */
+.badge-visible { background: rgba(16, 185, 129, 0.1); color: #10B981; border: 1px solid rgba(16,185,129,0.2); }
+.badge-ocultado { background: rgba(245, 158, 11, 0.1); color: #F59E0B; border: 1px solid rgba(245,158,11,0.2); }
+.badge-desindexado { background: rgba(59, 130, 246, 0.1); color: #3B82F6; border: 1px solid rgba(59,130,246,0.2); }
+.badge-retirado { background: rgba(239, 68, 68, 0.1); color: #EF4444; border: 1px solid rgba(239,68,68,0.2); }
+
 /* Animación para el fondo: Movimiento ethereal lento de un gradiente */
 @keyframes backgroundDataFlow {
     0% { background-position: 0% 50%; }
